@@ -1,0 +1,25 @@
+{
+  "name": "azure-graph-search",
+  "version": "0.0.0",
+  "authors": [
+    "Arun Sureddi <arunsu@microsoft.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "/public/bower_components",
+    "test",
+    "tests"
+  ],
+  "description": "Dashboard for ICs",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4",
+    "react": "^0.14.7",
+    "moment": "~2.10.6"
+  }
+}

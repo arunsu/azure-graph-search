@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    script(src = '/bower_components/node-azure-search/azure-search.min.js')
+    script(src = '/bower_components/moment/min/moment.min.js')
+    script(src='/react/build/dashboard.js')
+
+    a.brand(href="/")
+        span.brandname
+            h2= title
+    p Search the Azure Resource Graph that is indexed in document DB using azure search. To search any text pass it as ?q=querystring to the URL. Example /?q=toyota.
+
+    // Wrapper
+    #wrapper
+        #dashboard
+    // /WRAPPER
+
+    script(type='text/javascript').
+        var resultsStr = !{JSON.stringify(results)};
+        ReactDOM.render(
+            React.createElement(SearchResult, {query: "#{query}", items: "#{JSON.stringify(results)}"}),
+            document.getElementById("dashboard")
+        )
