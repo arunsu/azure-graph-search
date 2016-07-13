@@ -58,7 +58,7 @@ app.route('/*')
         }
         console.log("query: ", query);
 
-        search.query(query, function(err, indexes, results){
+        search.query(query, function(err, results){
           if (err)
             next()
 
