@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "app-root-path": "^1.2.0",
+    "azure-search": "0.0.8",
     "body-parser": "^1.12.4",
     "bower": "^1.6.5",
     "bson": "^0.3.2",

@@ -2,12 +2,12 @@
   "PORT": 3100,
 
   "aad": {
-    "enabled": false,
+    "enabled": true,
     "wsfed": {
-      "realm": "http://icdashboard.azurewebsites.net",
+      "realm": "http://argsearch.azurewebsites.net",
       "identityProviderUrl": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/wsfed",
       "identityMetadata": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/federationmetadata/2007-06/federationmetadata.xml",
-      "logoutUrl": "http://icdashboard.azurewebsites.net"
+      "logoutUrl": "http://argsearch.azurewebsites.net"
     }
   }
 }
