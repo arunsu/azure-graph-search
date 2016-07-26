@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  script(src='/bower_components/jquery/dist/jquery.min.js')
+  script(type = 'text/javascript', charset='UTF-8', src = 'http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0')
+  script(src = '/javascript/map.js')
+
+  a.brand(href="/map/")
+      span.brandname
+          h1= title
+  p Select the scenario and the enter the search strings. The results will be displayed in the map.
+
+  div.container
+    div.row
+      h3
+        span(class='label label-primary col-sm-2') Scenario
+      div(class='col-sm-4')
+        select(id='scenarioName', name='scenarioName')
+          each scenario, i in scenarios
+            option(value=i) #{scenario}
+
+  br
+  div(id='mapDiv')

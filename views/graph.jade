@@ -1,0 +1,44 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/bower_components/alchemyjs/dist/styles/vendor.css')
+        link(rel='stylesheet', href='/bower_components/alchemyjs/dist/alchemy.css')
+    body
+        script(src='/bower_components/jquery/dist/jquery.min.js')
+        script(src = '/bower_components/alchemyjs/dist/scripts/vendor.js')
+        script(src = '/bower_components/alchemyjs/dist/alchemy.js')
+        script(src='/javascript/graphQuery.js')
+
+        a.brand(href="/graph/")
+            span.brandname
+                h1= title
+        p Select the scenario and the enter the search strings. This is translated to graph query.
+
+        div.container
+          div.row
+            h3
+              span(class='label label-primary col-sm-2') Scenario
+            div(class='col-sm-4')
+              select(id='scenarioName', name='scenarioName')
+                each scenario, i in scenarios
+                  option(value=i) #{scenario}
+          div.row
+            h3
+              span(class='label label-primary col-sm-2') Parameters
+            div(class='col-sm-4')
+              input(id='parameters', type='text', name='schedule', class='form-control', placeholder='query format String ex:id=232&name=abc')
+          br
+          div.row
+            div(class='col-sm-2')
+            div(class='col-sm-2', name='actions')
+              button(id='btnSubmit', class='btn btn-lg btn-primary btn-block', type='submit') Search
+        br
+        div(id='alchemy' class='alchemy')
+
+        script(type='text/javascript').
+            //alchemy.begin({"dataSource": '/alchemy/actors.json'})
+
+            var config = getConfig("#{scenario}");
+            alchemy.begin(config);

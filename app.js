@@ -47,6 +47,18 @@ app.route('/:url(api|auth|components|app|bower_components|assets)/*')
         res.render('error', {message:err.message, error:err});
     });
 
+// All search grpah routes should redirect to the graph.jade
+app.route('/:url(graph)/*')
+.get(function (req, res) {
+    res.render('graph', { title: 'Search Graph', scenarios: ["Contributors", "Actors"], scenario: "Contributors"});
+})
+
+// All map routes should redirect to the map.jade
+app.route('/:url(map|MAP)/*')
+    .get(function (req, res) {
+        res.render('map', { title: 'Search Map', scenarios: ["Contributors", "Actors"]});
+    });
+
 // All other routes should redirect to the index.jade
 app.route('/*')
     .get(function (req, res) {
@@ -65,7 +77,7 @@ app.route('/*')
           var str = JSON.stringify(results, null, 4);
           console.log("results: ", str);
 
-          res.render('index', { title: 'Search Azure Graph', query: query, results: results});
+          res.render('index', { title: 'Search Azure', query: query, results: results});
         });
     });
 
