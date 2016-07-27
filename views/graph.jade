@@ -11,10 +11,19 @@ html
         script(src = '/bower_components/alchemyjs/dist/alchemy.js')
         script(src='/javascript/graphQuery.js')
 
-        a.brand(href="/graph/")
-            span.brandname
-                h1= title
-        p Select the scenario and the enter the search strings. This is translated to graph query.
+        .navbar.navbar-default.navbar-fixed-top(role='navigation')
+          .container
+            ul.nav.navbar-nav
+              li.active
+                a.brand(href="/") Search
+              li
+                a.brand(href="/graph/") Explorer
+              li
+                a.brand(href="/map/") Analytics
+
+        br
+        span.brandname
+            h1= title
 
         div.container
           div.row
@@ -27,8 +36,8 @@ html
           div.row
             h3
               span(class='label label-primary col-sm-2') Parameters
-            div(class='col-sm-4')
-              input(id='parameters', type='text', name='schedule', class='form-control', placeholder='query format String ex:id=232&name=abc')
+            div(class='col-sm-10')
+              textarea(id='parameters', type='text', rows="4", cols="40",name='parameters', placeholder='query format String ex:id=232&name=abc')
           br
           div.row
             div(class='col-sm-2')
@@ -36,9 +45,36 @@ html
               button(id='btnSubmit', class='btn btn-lg btn-primary btn-block', type='submit') Search
         br
         div(id='alchemy' class='alchemy')
+        br
+        textarea(id='response', type='text', rows="50", cols="160", name='response', placeholder='Graph query response')
 
         script(type='text/javascript').
             //alchemy.begin({"dataSource": '/alchemy/actors.json'})
 
-            var config = getConfig("#{scenario}");
-            alchemy.begin(config);
+            var config = getConfig();
+            //config.dataSource = $('<div />').html(#{scenario}).text();
+            var some_data = {
+              "nodes": [
+                {
+                  "id": 1
+                },
+                {
+                  "id": 2
+                },
+                {
+                  "id": 3
+                }
+              ],
+              "edges": [
+                {
+                  "source": 1,
+                  "target": 2
+                },
+                {
+                  "source": 1,
+                  "target": 3,
+                }
+              ]
+            };
+            config.dataSource = some_data;
+            //alchemy.begin(config);

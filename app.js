@@ -11,6 +11,7 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
     appRoot = require('app-root-path'),
+    fs = require('fs'),
     appRootPath = appRoot.toString();
 
 // Load config
@@ -50,14 +51,38 @@ app.route('/:url(api|auth|components|app|bower_components|assets)/*')
 // All search grpah routes should redirect to the graph.jade
 app.route('/:url(graph)/*')
 .get(function (req, res) {
-    res.render('graph', { title: 'Search Graph', scenarios: ["Contributors", "Actors"], scenario: "Contributors"});
+  fs.readFile('./public/alchemy/contributors.json', 'utf8', function (err, data) {
+    if (err) throw err;
+    var obj = JSON.stringify(data);
+    console.log("Contributors: ", obj);
+
+    res.render('graph', { title: 'Azure Resource Graph Explorer', scenarios: ["Get subscription graph response", "Get cluster changes"], scenario: obj});
+  });
 })
 
 // All map routes should redirect to the map.jade
 app.route('/:url(map|MAP)/*')
     .get(function (req, res) {
-        res.render('map', { title: 'Search Map', scenarios: ["Contributors", "Actors"]});
+        res.render('map', { title: 'Azure Resource Graph Analytics', scenarios: ["Top 10 Machines ranking based on VM's", "Top 10 Customer regions ranking based on support tickets"]});
     });
+
+app.route('/:url(searchgraph)/*')
+  .get(function (req, res){
+    var query = req.query ? req.query.q : '';
+    console.log("query: ", query);
+
+    if (query){
+      search.query(query, function(err, results){
+        if (err)
+          next()
+
+        var str = JSON.stringify(results, null, 4);
+        console.log("results: ", str);
+
+        res.status(201).send(str);
+      });
+    }
+  });
 
 // All other routes should redirect to the index.jade
 app.route('/*')
@@ -77,7 +102,7 @@ app.route('/*')
           var str = JSON.stringify(results, null, 4);
           console.log("results: ", str);
 
-          res.render('index', { title: 'Search Azure', query: query, results: results});
+          res.render('index', { title: 'Azure Resource Graph Search', query: query, results: results});
         });
     });
 

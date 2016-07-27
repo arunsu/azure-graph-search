@@ -2,37 +2,36 @@ var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!
 
 $(function() {
     $("#scenarioName").change(function() {
-        config = getConfig($('option:selected', this).text());
-        //alchemy = new Alchemy(config);
+        var scenario = $('option:selected', this).text();
+        var query = "MATCH (n:Cloud) RETURN n LIMIT 25";
+        if(scenario === "Get cluster changes"){
+          query = "MATCH p=()-[*1]-(sub:Subscription)-[*1]-()-[*1]-()-[*1]-()-[*1]-()-[*1]-(cluster:Cluster)-[r:HasDataCenter|ClusterHasNetworkSwitch]-(n) WHERE sub.SubscriptionId=\"1eb17067-73a5-403a-8aa8-cc7cc0b6fed3\" AND cluster.ClusterName=\"dm3prdapp12\" AND( n.DataCenter=\"DM3\" OR n.Hostname=\"DM3-0101-0115-20TS2\") Return * LIMIT 25";
+        }
+        $("#parameters").val(query);
     });
 
     $("#btnSubmit").click(function(){
       var scenario = $("#scenarioName option:selected").text();
       var sendData = {
-        "query" : "{MATCH (n:Cloud) RETURN n LIMIT 25}"
+        "query" : $("#parameters").val()
       };
 
-       var config = {
-         graphHeight: function() {return 700;},
-         graphWidth: function() {return 1200;},
+      var config = {
+       graphHeight: function() {return 700;},
+       graphWidth: function() {return 1200;},
 
-         linkDistance: function(){ return 40; },
+       linkDistance: function(){ return 40; },
 
-         nodeTypes: {"node_type": ["Maintainer", "Contributor"]},
-         caption: function(node){ return node.caption; }
-       }
-
-      if(scenario === "Contributors"){
-        sendData.query = "MATCH (n:Cloud) RETURN n LIMIT 25";
-
-        getData(sendData, function(source){
-          config.dataSource = source;
-          alchemy = new Alchemy(config);
-        });
-      } else {
-        config.dataSource = '/alchemy/actors.json';
-        alchemy = new Alchemy(config);
+       nodeTypes: {"node_type": ["Maintainer", "Contributor"]},
+       caption: function(node){ return node.caption; }
       }
+
+      getData(sendData, function(source){
+        config.dataSource = source;
+        var str = JSON.stringify(source, null, 4);
+        $("#response").val(str);
+        //alchemy = new Alchemy(config);
+      });
     });
 });
 
@@ -57,14 +56,15 @@ function getData(sendData, callback) {
     },
     error: function(xhr, status, err) {
         console.log(sendData, status, err.toString());
+        $("#response").val(err.toString());
     }
   });
 }
 
-function getConfig(scenario){
+function getConfig(){
    var config = {
-     dataSource: '/alchemy/contrib.json',
-     graphHeight: function() {return 700;},
+     dataSource: '',
+     graphHeight: function() {return 500;},
      graphWidth: function() {return 1200;},
 
      linkDistance: function(){ return 40; },

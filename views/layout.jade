@@ -12,4 +12,17 @@ html
         script(src='/bower_components/jquery/dist/jquery.min.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
         script(src='/bower_components/react-treeview/build/react-treeview.js')
+
+        .navbar.navbar-default.navbar-fixed-top(role='navigation')
+          .container
+            ul.nav.navbar-nav
+              li.active
+                a.brand(href="/") Search
+              li
+                a.brand(href="/graph/") Explorer
+              li
+                a.brand(href="/map/") Analytics
+
+        br
+        
         block content

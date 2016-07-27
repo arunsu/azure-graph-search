@@ -5,10 +5,9 @@ block content
     script(src = '/bower_components/moment/min/moment.min.js')
     script(src='/react/build/dashboard.js')
 
-    a.brand(href="/")
-        span.brandname
-            h2= title
-    p Search the Azure Resource Graph that is indexed in document DB using azure search. To search any text pass it as ?q=querystring to the URL. Example /?q=toyota.
+    span.brandname
+      h2= title
+      | powered by Geneva Analytics
 
     // Wrapper
     #wrapper
@@ -18,6 +17,6 @@ block content
     script(type='text/javascript').
         var resultsStr = !{JSON.stringify(results)};
         ReactDOM.render(
-            React.createElement(SearchResult, {query: "#{query}", items: "#{JSON.stringify(results)}"}),
+            React.createElement(SearchResult, {query: "#{query}"}),
             document.getElementById("dashboard")
         )
